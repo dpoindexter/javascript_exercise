@@ -9,5 +9,6 @@ Instructions
 * Please code the page according to industry best practices and organize the assets as you would if delivering it to a client to integrate (not necessarily to deploy).
 * Do not use *any* third-party JavaScript packages, libraries or utilities. The exercise must be your own original hand-written code.
 * Extra credit: write your javacript using OO
-*
+
+
 ![Wireframe](https://github.com/adamesque/javascript_exercise/raw/master/wireframe.png)
