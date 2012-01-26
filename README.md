@@ -4,9 +4,10 @@ Instructions
 ============
 * The wireframe below demonstrates all the necessary UI elements. The thumbnail and arrow images can be found in the images directory.
 * Must include at least 10 images, with 5 viewable at any given moment.
-* Clicking the left and right arrows should shift the images incrementally. No animation is necessary.
+* Clicking the left and right arrows should shift the images incrementally.
 * When the user has reached the start or end point, the photos should loop as a carousel would.
 * Please code the page according to industry best practices and organize the assets as you would if delivering it to a client to integrate (not necessarily to deploy).
 * Do not use *any* third-party JavaScript packages, libraries or utilities. The exercise must be your own original hand-written code.
-
+* Extra credit: write your javacript using OO
+*
 ![Wireframe](https://github.com/adamesque/javascript_exercise/raw/master/wireframe.png)
