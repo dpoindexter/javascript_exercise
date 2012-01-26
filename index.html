@@ -1,46 +1,9 @@
 <!DOCTYPE>
 <html>
     <head>
-        <title>Javascript Exercise</title>
+        <title>Javascript Exercise: Daniel Poindexter</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <style type="text/css" media="screen">
-            
-            body {
-                margin: 0;
-                padding: 0;
-                border: 0;
-            }
-
-            #slideshow {
-                margin: 25px;
-                font-size: 0;
-            }
-
-            #slideshow a {
-                display: inline-block;
-                zoom: 1;
-                *display: inline;
-            }
-
-            #images {       
-                display: inline-block;
-                padding: 0 0 0 8px;
-                border-top: 1px solid black;
-                border-bottom: 1px solid black;
-                width: 430px;
-                height: 94px;
-                overflow: hidden;
-                zoom: 1;
-                *display: inline;
-            }
-
-            #images img {
-                float: left;
-                padding: 8px 8px 8px 0;
-            }
-
-        </style>
-
+        <link rel="stylesheet" href="styles/slideshow.css">
     </head>
     <body>
         <div id="slideshow">
@@ -64,62 +27,7 @@
             </a>
         </div>
 
-        <script type="text/javascript">
-
-            var Slideshow = (function(){
-                var self = this;
-
-                self.container = null;
-                self.images = [];
-                self.previous = null;
-                self.next = null;
-
-                self.stepNext = function(){
-                    self.container.appendChild(self.images[0]);
-                }
-
-                self.stepPrevious = function(){
-                    self.container.insertBefore(self.images[self.images.length - 1], self.images[0]);
-                }
-
-                self.init = function(){
-                    self.container = document.getElementById("images");
-                    self.images = container.getElementsByTagName("img");
-                    self.previous = document.getElementById("previous");
-                    self.next = document.getElementById("next");
-                    
-                    if (!self.images.length > 0) {
-                        throw "There are no images in the slideshow";
-                    }
-                    
-                    addEvent(self.previous, "click", self.stepPrevious);
-                    addEvent(self.next, "click" , self.stepNext);
-                }
-
-                return self;
-            })();
-
-            function addEvent (obj, type, callback) {
-                if (!obj.addEventListener) {
-                    obj.attachEvent("on" + type, callback);
-
-                } else {
-                    obj.addEventListener(type, callback, false);
-                }
-            }
-
-            window.onload = function(){
-                Slideshow.init();
-            }
-
-
-
-        </script>
+        <script type="text/javascript" src="scripts/slideshow.js"></script>
 
     </body>
 </html>
-
-<!--
-    when "next" is pushed, take the front of the stack and move it to the back of the stack in the DOM
-    when "previous" is pushed, take the front of the stack and move it to the front of the stack in the DOM
--->
