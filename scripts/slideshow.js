@@ -17,7 +17,6 @@ var Slideshow = (function(){
     }
 
     self.init = function(){
-        console.log("here");
         self.container = document.getElementById("images");
         self.images = container.getElementsByTagName("img");
         self.previous = document.getElementById("previous");
@@ -31,6 +30,8 @@ var Slideshow = (function(){
         addEvent(self.next, "click" , self.stepNext);
     }
 
+    //Make sure the DOM is ready before collecting all our nodes.
+    //Not necessary if the script is loaded at the end of the body tag, but we can't count on that
     addEvent(window, "load", self.init);
 
     return self;
