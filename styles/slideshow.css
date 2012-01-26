@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#slideshow {
+    margin: 25px;
+    font-size: 0;
+}
+
+#slideshow a {
+    display: inline-block;
+    border: none;
+    /* triggers hasLayout for IE 6/7 */
+    zoom: 1;
+    *display: inline;
+}
+
+#slideshow #images {       
+    display: inline-block;
+    padding: 0 0 0 8px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 430px;
+    height: 94px;
+    overflow: hidden;
+    /* triggers hasLayout for IE 6/7 */
+    zoom: 1;
+    *display: inline;
+}
+
+#slideshow #images img {
+    float: left;
+    padding: 8px 8px 8px 0;
+}
