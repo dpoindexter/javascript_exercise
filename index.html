@@ -12,7 +12,7 @@
             </a>
             <div id="images">
                 <img src="images/thumb_01.gif" alt="Placeholder image"> 
-                <img src="images/thumb_02.gif" alt="Placeholder image">
+                <img src="images/thumb_02.gif" id="test" alt="Placeholder image">
                 <img src="images/thumb_03.gif" alt="Placeholder image">       
                 <img src="images/thumb_04.gif" alt="Placeholder image">
                 <img src="images/thumb_05.gif" alt="Placeholder image">
@@ -29,17 +29,7 @@
         </div>
         <script type="text/javascript" src="scripts/slideshow.js"></script>
         <script type="text/javascript">
-            var slide = new Slideshow({
-                onImgClick: function(e) {
-                    console.log(e);
-                },
-                onNext: function(){
-                    console.log("Moving to the next step!");
-                },
-                onPrevious: function(){
-                    console.log("Moving to the previous step!");
-                }
-            });
+            var slide = new Slideshow();
         </script>
     </body>
 </html>

@@ -14,7 +14,7 @@ var Slideshow = function(options){
         nextControlId: "next",
         onSlideClick: null,
         onNext: null,
-        onPrevious: null,          
+        onPrevious: null        
     }
 
     var stepNext = function(silence){
@@ -44,19 +44,20 @@ var Slideshow = function(options){
     }
     
     var slideClick = function(e, silence) {
-        if (!e.target.nodeName === settings.tag.toUpperCase()) {
+        var target = e.target || e.srcElement;
+        if (!target.nodeName === settings.tag.toUpperCase()) {
             return;
         }
         
         //Even if we move multiple times, only fire one onMove handler
         var fired = false;
             
-        while(self.indexOf(e.target) !== 2) {
-            if (self.indexOf(e.target) < 2) {
+        while(self.indexOf(target) !== 2) {
+            if (self.indexOf(target) < 2) {
                 stepPrevious(fired);
                 fired = true;
             }
-            else if (self.indexOf(e.target) > 2) {
+            else if (self.indexOf(target) > 2) {
                 stepNext(fired);
                 fired = true;
             }
@@ -84,9 +85,10 @@ var Slideshow = function(options){
 
     self.removeNode = function(node) {
         try {
-            container.removeChild(node);  
+            container.removeChild(node);
+            return true;
         } catch (err) {
-            return;
+            return false;
         }
     }
 
@@ -117,7 +119,8 @@ var Slideshow = function(options){
     self.settings = function(options) {
         settings = Util.defaults(options || {}, settings);  
     }
-            
+    
+    //Runs once on instantiation
     var init = (function(options){
         var options = Util.defaults(options || {}, settings || defaults);
         settings = options;
