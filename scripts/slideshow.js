@@ -1,50 +1,169 @@
-var Slideshow = (function(){
+var Slideshow = function(options){
     var self = this;
 
-    self.container = null;
-    self.images = [];
-    self.previous = null;
-    self.next = null;
+    var container = null;
+    var imageNodes = null;
+    var previousControl = null;
+    var nextControl = null;
+    var settings = null;
 
-    self.stepNext = function(){
+    var defaults = {
+        tag: "img",
+        containerId: "images",
+        previousControlId: "previous",
+        nextControlId: "next",
+        onSlideClick: null,
+        onNext: null,
+        onPrevious: null,          
+    }
+
+    var stepNext = function(silence){
         //Take the first image and move it to the end of the node
-        self.container.appendChild(self.images[0]);
+        container.appendChild(imageNodes[0]);
+
+        if (!silence && settings.onNext) {
+            settings.onNext();
+        } 
     }
 
-    self.stepPrevious = function(){
+    var stepPrevious = function(silence){
         //Take the last image and move it to the beginning of the node
-        self.container.insertBefore(self.images[self.images.length - 1], self.images[0]);
-    }
+        container.insertBefore(imageNodes[imageNodes.length - 1], imageNodes[0]);
 
-    self.init = function(){
-        self.container = document.getElementById("images");
-        self.images = container.getElementsByTagName("img");
-        self.previous = document.getElementById("previous");
-        self.next = document.getElementById("next");
-        
-        if (!self.images.length > 0) {
-            throw "There are no images in the slideshow";
+        if (!silence && settings.onPrevious) {
+            settings.onPrevious();
+        } 
+    }
+    
+    var keyDown = function(e) {
+        if (e.keyCode === 39) {
+            stepNext();
+        } else if (e.keyCode === 37) {
+            stepPrevious();
+        }
+    }
+    
+    var slideClick = function(e, silence) {
+        if (!e.target.nodeName === settings.tag.toUpperCase()) {
+            return;
         }
         
-        addEvent(self.previous, "click", self.stepPrevious);
-        addEvent(self.next, "click" , self.stepNext);
+        //Even if we move multiple times, only fire one onMove handler
+        var fired = false;
+            
+        while(self.indexOf(e.target) !== 2) {
+            if (self.indexOf(e.target) < 2) {
+                stepPrevious(fired);
+                fired = true;
+            }
+            else if (self.indexOf(e.target) > 2) {
+                stepNext(fired);
+                fired = true;
+            }
+        }
+
+        if (!silence && settings.onSlideClick) {
+            settings.onSlideClick(e);
+        }             
     }
 
-    //Make sure the DOM is ready before collecting all our nodes.
-    //Not necessary if the script is loaded at the end of the body tag, but we can't count on that
-    addEvent(window, "load", self.init);
+    self.indexOf = function(node) {
+        for (var i = 0, j = imageNodes.length; i < j; i++) {
+            if (imageNodes[i] === node) return i;
+        }
+        return null;
+    }
+
+    self.addNode = function(node, position) {
+        if (position >= 0 && position < imageNodes.length) {
+            container.insertBefore(node, imageNodes[position])
+        } else {
+            container.appendChild(node);                
+        }
+    }
+
+    self.removeNode = function(node) {
+        try {
+            container.removeChild(node);  
+        } catch (err) {
+            return;
+        }
+    }
+
+    self.next = function(steps) {
+        var steps = (steps > 0) ? steps : 1;
+        var fired = false;
+        for (var i = 0; i < steps; i++) {
+            stepNext(fired);
+            fired = true;
+        }
+    }
+
+    self.previous = function(steps) {
+        var steps = (steps > 0) ? steps : 1;
+        var fired = false;
+        for (var i = 0; i < steps; i++) {
+            stepPrevious(fired);
+            fired = true;
+        }        
+    }
+
+    self.remove = function(){
+        Util.removeEvent(previousControl, "click", stepPrevious);
+        Util.removeEvent(nextControl, "click" , stepNext);
+        Util.removeEvent(document, "keydown", keyDown);
+    }
+
+    self.settings = function(options) {
+        settings = Util.defaults(options || {}, settings);  
+    }
+            
+    var init = (function(options){
+        var options = Util.defaults(options || {}, settings || defaults);
+        settings = options;
+
+        container = document.getElementById(options.containerId);
+        imageNodes = container.getElementsByTagName(options.tag);
+        previousControl = document.getElementById(options.previousControlId);
+        nextControl = document.getElementById(options.nextControlId);
+        
+        if (!imageNodes.length > 0) {
+            throw "There are no images in the slideshow.";
+        }
+        
+        Util.addEvent(previousControl, "click", function(e){stepPrevious();});
+        Util.addEvent(nextControl, "click", function(e){stepNext();});
+        Util.addEvent(container, "click", slideClick);
+        Util.addEvent(document, "keydown", keyDown);
+    })(options)
 
     return self;
-})();
+};
 
-// Utility function allows us to add events in IE 8- and modern browsers. 
-// Naive implementation which doesn't normalize for the event object or standardize a RemoveEventListener API
+// Utility function for clean events in IE 6/7/8. 
+var Util = {
+    addEvent: function(obj, type, callback) {
+        if (!obj.addEventListener) {
+            obj.attachEvent("on" + type, function(){ callback(window.event); });
 
-function addEvent (obj, type, callback) {
-    if (!obj.addEventListener) {
-        obj.attachEvent("on" + type, callback);
+        } else {
+            obj.addEventListener(type, callback, false);
+        }
+    },
 
-    } else {
-        obj.addEventListener(type, callback, false);
+    removeEvent: function(obj, type, callback) {
+        if (!obj.removeEventListener) {
+            obj.detachEvent("on" + type, function(){ callback(window.event); });
+
+        } else {
+            obj.removeEventListener(type, callback, false);
+        }
+    },
+
+    defaults: function(obj, defaults) {
+        for (var prop in defaults) {
+            if (obj[prop] == null) obj[prop] = defaults[prop];
+        }
+        return obj;
     }
 }
