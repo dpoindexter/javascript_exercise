@@ -28,33 +28,33 @@ The tag setting defaults to "img".
 Methods
 -------
 
-### `Slideshow.next(steps)`
+### Slideshow.next(steps)
 
 Advances the slideshow one or more slides. An optional argument (integer) is a  number of slides to advance at once. Moving multiple steps will trigger the onMoveNext callback only once.
 
     slide.next(6); //advances the slideshow by six slides
 
-### `Slideshow.previous(steps)`
+### Slideshow.previous(steps)
 
 Move the slideshow back by one or more slides. An optional argument (integer) is a number of slides to move back at once. Moving multiple steps will trigger the onMovePrevious callback only once.
 
     slide.previous(2); //moves the slideshow back by two slides
 
-### `Slideshow.addNode(node)`
+### Slideshow.addNode(node)
 
 Adds the passed node to the slideshow. If the node is already attached to the DOM somewhere else, this method will detach it from its current location, making it a child node of the slideshow container element.
 
     var newImg = document.getElementById("other");
     slide.addNode(newImg);
 
-### `Slideshow.removeNode(node)`
+### Slideshow.removeNode(node)
 
 Removes the passed node from the slideshow container element, if it is found.
 
     var oldImg = container.getElementsByTagName("img")[3];
     slide.removeNode(oldImg);
 
-### `Slideshow.indexOf(node)`
+### Slideshow.indexOf(node)
 
 When passed a node, returns the node's current position in the slideshow container. The first image in the container element will return `0`.
 
@@ -62,13 +62,13 @@ When passed a node, returns the node's current position in the slideshow contain
         console.log(slide.indexOf(e.target));
     }
 
-### `Slideshow.remove()`
+### Slideshow.remove()
 
 Removes all event listeners attached during the creation of that instance of `Slideshow`, effectively removing that instance.
 
     slide.remove();
 
-### `Slideshow.settings(options)`
+### Slideshow.settings(options)
 
 Takes an object literal of options and sets them on the instance. Any settings not passed will keep their previous values, so your object literal only needs to include the options you wish to set. See "Settings" for a list of options.
 
@@ -117,23 +117,23 @@ Settings can be set by passing an object literal of options as an argument when 
         }
     })
 
-### `tag` (string)
+### tag (string)
 
 Defines the tag name of the slides within the container element. Defaults to "img".
 
-### `containerId` (string)
+### containerId (string)
 
 Defines the ID of the element containing the slides. Defaults to "images".
 
-### `previousControlId` (string)
+### previousControlId (string)
 
 Defines the ID of the "Previous" control button. When clicked, the element will cause the slideshow to move back one slide. Defaults to "previous".
 
-### `nextControlId` (string)
+### nextControlId (string)
 
 Defines the ID of the "Next" control button. When clicked, the element will cause the slideshow to advance one slide. Defaults to "next".
 
-### `onSlideClick` (function)
+### onSlideClick (function)
 
 Calls the passed function when one of the slide nodes is clicked. Passes the `event` object as the callback's first argument. There is no default set.
 
@@ -143,7 +143,7 @@ Calls the passed function when one of the slide nodes is clicked. Passes the `ev
         }
     })
 
-### `onNext` (function)
+### onNext (function)
 
 Calls the passed function when the slideshow advances. Even if the slideshow advances multiple slides at once, the callback fires a single time. There are no passed arguments. There is no default set.
 
@@ -153,7 +153,7 @@ Calls the passed function when the slideshow advances. Even if the slideshow adv
         }
     })
 
-### `onPrevious` (function)
+### onPrevious (function)
 
 Calls the passed function when the slideshow moves back. Even if the slideshow moves back multiple slides at once, the callback fires a single time. There are no passed arguments. There is no default set.
 
